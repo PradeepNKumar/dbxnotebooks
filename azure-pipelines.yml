@@ -55,7 +55,11 @@ steps:
   continueOnError: true  # This prevents the step from failing the pipeline
 
 - task: SonarCloudAnalyze@3
+  env:
+    SONAR_TOKEN: $(SONAR_TOKEN)
 
 - task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
+  env:
+    SONAR_TOKEN: $(SONAR_TOKEN)
