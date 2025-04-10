@@ -43,7 +43,7 @@ steps:
 
 - script: |
     # Run your tests and generate coverage if applicable
-    python -m pytest --cov=. --cov-report=xml:coverage.xml
+    python -m pytest --cov=notebooks/ --cov-report=xml:coverage.xml
   displayName: 'Run tests with coverage'
 
 - task: SonarCloudAnalyze@1
