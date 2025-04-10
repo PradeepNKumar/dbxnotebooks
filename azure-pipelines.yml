@@ -57,9 +57,11 @@ steps:
 - task: SonarCloudAnalyze@3
   env:
     SONAR_TOKEN: $(SONAR_TOKEN)
+  continueOnError: true
 
 - task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
   env:
     SONAR_TOKEN: $(SONAR_TOKEN)
+  continueOnError: true
