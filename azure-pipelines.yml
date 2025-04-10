@@ -28,17 +28,17 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: '$(sonarCloudServiceConnection)'
-    organization: 'your-org'               # Replace with your SonarCloud org
+    organization: 'Pradeepbasavanahalli'               # Replace with your SonarCloud org
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(sonarProjectKey)'
     cliProjectName: '$(sonarProjectName)'
-    cliSources: 'notebook1.py'               # The converted Python file
+    cliSources: 'notebooks/notebook1.py'               # The converted Python file
     extraProperties: |
       sonar.python.version=3.8
       sonar.language=py
-      sonar.sources=.
-      sonar.tests=.
+      sonar.sources=notebooks/
+      sonar.tests=notebooks/
       sonar.python.coverage.reportPaths=coverage.xml
 
 - script: |
