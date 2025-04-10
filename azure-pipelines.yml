@@ -38,7 +38,9 @@ steps:
       sonar.python.version=3.8
       sonar.language=py
       sonar.sources=.
-      sonar.tests=.
+      sonar.tests=./tests  # Explicit test directory
+      sonar.test.inclusions=./tests/**
+      sonar.coverage.exclusions=**/tests/**,**/test_*.py
       sonar.python.coverage.reportPaths=coverage.xml
 - script: |
     # Create a minimal test file if none exists
