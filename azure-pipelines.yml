@@ -28,7 +28,7 @@ steps:
 - task: SonarCloudPrepare@1
   inputs:
     SonarCloud: '$(sonarCloudServiceConnection)'
-    organization: 'Pradeepbasavanahalli'               # Replace with your SonarCloud org
+    organization: 'pradeepbasavanahalli'               # Replace with your SonarCloud org
     scannerMode: 'CLI'
     configMode: 'manual'
     cliProjectKey: '$(sonarProjectKey)'
