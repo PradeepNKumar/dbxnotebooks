@@ -22,7 +22,7 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    jupyter nbconvert --to script notebook1.ipynb
+    jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
   displayName: 'Convert notebook to Python script'
 
 - task: SonarCloudPrepare@1
