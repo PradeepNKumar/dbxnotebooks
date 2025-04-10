@@ -25,7 +25,7 @@ steps:
     jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
   displayName: 'Convert notebook to Python script'
 
-- task: SonarCloudPrepare@1
+- task: SonarCloudPrepare@3
   inputs:
     SonarCloud: '$(sonarCloudServiceConnection)'
     organization: 'pradeepbasavanahalli'               # Replace with your SonarCloud org
@@ -54,8 +54,8 @@ steps:
   displayName: 'Run tests with coverage'
   continueOnError: true  # This prevents the step from failing the pipeline
 
-- task: SonarCloudAnalyze@1
+- task: SonarCloudAnalyze@3
 
-- task: SonarCloudPublish@1
+- task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
