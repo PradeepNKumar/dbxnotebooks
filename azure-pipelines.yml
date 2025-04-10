@@ -1,0 +1,52 @@
+trigger:
+- main
+
+variables:
+  sonarCloudServiceConnection: 'SonarCloud' # Name of your SonarCloud service connection
+  sonarProjectKey: 'pradeepbasavanahalli_notebookanalysis'    # Replace with your SonarCloud project key
+  sonarProjectName: 'NotebookAnalysis'    # Replace with your project name
+  pythonVersion: '3.8'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(pythonVersion)'
+  
+- script: |
+    python -m pip install --upgrade pip
+    pip install notebook jupyter nbconvert
+  displayName: 'Install dependencies'
+
+- script: |
+    jupyter nbconvert --to script notebooks/notebook1.ipynb
+  displayName: 'Convert notebook to Python script'
+
+- task: SonarCloudPrepare@1
+  inputs:
+    SonarCloud: '$(sonarCloudServiceConnection)'
+    organization: 'your-org'               # Replace with your SonarCloud org
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(sonarProjectKey)'
+    cliProjectName: '$(sonarProjectName)'
+    cliSources: 'notebook1.py'               # The converted Python file
+    extraProperties: |
+      sonar.python.version=3.8
+      sonar.language=py
+      sonar.sources=.
+      sonar.tests=.
+      sonar.python.coverage.reportPaths=coverage.xml
+
+- script: |
+    # Run your tests and generate coverage if applicable
+    python -m pytest --cov=. --cov-report=xml:coverage.xml
+  displayName: 'Run tests with coverage'
+
+- task: SonarCloudAnalyze@1
+
+- task: SonarCloudPublish@1
+  inputs:
+    pollingTimeoutSec: '300'
