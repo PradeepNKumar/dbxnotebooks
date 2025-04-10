@@ -22,7 +22,7 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
-    jupyter nbconvert --to script notebooks/notebook1.ipynb
+    jupyter nbconvert --to script notebook1.ipynb
   displayName: 'Convert notebook to Python script'
 
 - task: SonarCloudPrepare@1
@@ -33,17 +33,17 @@ steps:
     configMode: 'manual'
     cliProjectKey: '$(sonarProjectKey)'
     cliProjectName: '$(sonarProjectName)'
-    cliSources: 'notebooks/notebook1.py'               # The converted Python file
+    cliSources: 'notebook1.py'               # The converted Python file
     extraProperties: |
       sonar.python.version=3.8
       sonar.language=py
-      sonar.sources=notebooks/
-      sonar.tests=notebooks/
+      sonar.sources=.
+      sonar.tests=.
       sonar.python.coverage.reportPaths=coverage.xml
 
 - script: |
     # Run your tests and generate coverage if applicable
-    python -m pytest --cov=notebooks/ --cov-report=xml:coverage.xml
+    python -m pytest --cov=. --cov-report=xml:coverage.xml
   displayName: 'Run tests with coverage'
 
 - task: SonarCloudAnalyze@1
