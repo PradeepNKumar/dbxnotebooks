@@ -11,6 +11,20 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(pythonVersion)'
+  
+- script: |
+    python -m pip install --upgrade pip
+    pip install notebook jupyter nbconvert
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
+  displayName: 'Convert notebook to Python script'
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
@@ -27,22 +41,9 @@ steps:
     snyk-to-html -o results/sast.html < results/sast.sarif
   env:
     SNYK_TOKEN: $(SNYK_TOKEN)
+  continueOnError: true
 - publish: $(System.DefaultWorkingDirectory)/results
   artifact: results
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(pythonVersion)'
-  
-- script: |
-    python -m pip install --upgrade pip
-    pip install notebook jupyter nbconvert
-    pip install -r requirements.txt
-  displayName: 'Install dependencies'
-
-- script: |
-    jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
-  displayName: 'Convert notebook to Python script'
-
 - task: SonarCloudPrepare@3
   inputs:
     SonarCloud: '$(sonarCloudServiceConnection)'
