@@ -25,6 +25,12 @@ steps:
 - script: |
     jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
   displayName: 'Convert notebook to Python script'
+- task: SnykSecurityScan@1
+  inputs:
+    serviceConnectionEndpoint: 'snyk-connect'
+    testType: 'app'
+    monitorWhen: 'always'
+    failOnIssues: true
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
