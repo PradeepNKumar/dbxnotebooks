@@ -28,8 +28,7 @@ steps:
 - task: SnykSecurityScan@1
   inputs:
     serviceConnectionEndpoint: 'snyk-connect'
-    testType: 'app'
-    monitorWhen: 'always'
+    testType: 'code'
     failOnIssues: true
 - task: NodeTool@0
   inputs:
