@@ -67,7 +67,7 @@ stages:
         inputs:
           htmlType: 'genericHTML'
           htmlPath: 'results/sast.html'
-        displayName: Pulish Snyk Report
+        displayName: Publish Snyk Report
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
