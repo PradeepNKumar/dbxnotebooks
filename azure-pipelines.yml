@@ -25,11 +25,11 @@ steps:
 - script: |
     jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
   displayName: 'Convert notebook to Python script'
-- task: SnykSecurityScan@1
-  inputs:
-    serviceConnectionEndpoint: 'snyk-connect'
-    testType: 'code'
-    failOnIssues: true
+# - task: SnykSecurityScan@1
+#   inputs:
+#     serviceConnectionEndpoint: 'snyk-connect'
+#     testType: 'code'
+#     failOnIssues: true
 - task: NodeTool@0
   inputs:
     versionSpec: '20.x'
@@ -47,8 +47,13 @@ steps:
   env:
     SNYK_TOKEN: $(SNYK_TOKEN)
   continueOnError: true
-- publish: $(System.DefaultWorkingDirectory)/results
-  artifact: results
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: results/sast.html
+    ArtifactName: 'Snyk Scan Report'
+    publishLocation: 'Container'
+# - publish: $(System.DefaultWorkingDirectory)/results
+#   artifact: results
 - task: SonarCloudPrepare@3
   inputs:
     SonarCloud: '$(sonarCloudServiceConnection)'
@@ -89,8 +94,8 @@ steps:
   env:
     SONAR_TOKEN: $(SONAR_TOKEN)
   continueOnError: true
-- checkout: self
-  persistCredentials: true
+# - checkout: self
+#   persistCredentials: true
 - bash: |
     git config --global user.email "$(Build.RequestedForEmail)"
     git config --global user.name "$(Build.RequestedFor)"
