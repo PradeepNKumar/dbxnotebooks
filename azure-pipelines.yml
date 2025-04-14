@@ -63,9 +63,11 @@ stages:
           SNYK_TOKEN: $(SNYK_TOKEN)
         continueOnError: true
         
-      - task: publishhtmlreport@1
+      - task: LakshayKaushik.PublishHTMLReports.publishhtmlreport.publishhtmlreport@1
         inputs:
+          htmlType: 'genericHTML'
           htmlPath: 'results/sast.html'
+        displayName: Pulish Snyk Report
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
