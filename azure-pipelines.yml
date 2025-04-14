@@ -64,17 +64,17 @@ stages:
         continueOnError: true
         
 
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: results/sast.html
-          ArtifactName: 'SNYKReport'
-          publishLocation: 'Container'
-      # - publish: $(System.DefaultWorkingDirectory)/results
-      #   artifact: results
-      - task: LakshayKaushik.PublishHTMLReports.publishhtmlreport.publishhtmlreport@1
+      # - task: PublishBuildArtifacts@1
+      #   inputs:
+      #     PathtoPublish: results/sast.html
+      #     ArtifactName: 'SNYKReport'
+      #     publishLocation: 'Container'
+      # # - publish: $(System.DefaultWorkingDirectory)/results
+      # #   artifact: results
+      - task: publishhtmlreport@1
         inputs:
           htmlType: 'genericHTML'
-          htmlPath: 'results/sast.html'
+          htmlPath: '$(System.DefaultWorkingDirectory)/results/sast.html'
         displayName: Publish Snyk Report
       - task: SonarCloudPrepare@3
         inputs:
