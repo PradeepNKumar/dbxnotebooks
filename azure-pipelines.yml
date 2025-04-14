@@ -63,11 +63,7 @@ stages:
           SNYK_TOKEN: $(SNYK_TOKEN)
         continueOnError: true
         
-      - task: LakshayKaushik.PublishHTMLReports.publishhtmlreport.publishhtmlreport@1
-        inputs:
-          htmlType: 'genericHTML'
-          htmlPath: 'results/sast.html'
-        displayName: Publish Snyk Report
+
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
@@ -75,7 +71,11 @@ stages:
           publishLocation: 'Container'
       # - publish: $(System.DefaultWorkingDirectory)/results
       #   artifact: results
-
+      - task: LakshayKaushik.PublishHTMLReports.publishhtmlreport.publishhtmlreport@1
+        inputs:
+          htmlType: 'genericHTML'
+          htmlPath: 'results/sast.html'
+        displayName: Publish Snyk Report
       - task: SonarCloudPrepare@3
         inputs:
           SonarCloud: '$(sonarCloudServiceConnection)'
