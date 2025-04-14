@@ -147,7 +147,7 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
-          ArtifactName: 'Snyk Scan Report'
+          ArtifactName: 'Snyk Report'
           publishLocation: 'Container'
       # - publish: $(System.DefaultWorkingDirectory)/results
       #   artifact: results
