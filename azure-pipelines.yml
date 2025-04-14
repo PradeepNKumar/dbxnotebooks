@@ -69,6 +69,10 @@ stages:
           publishLocation: 'Container'
       # - publish: $(System.DefaultWorkingDirectory)/results
       #   artifact: results
+      - task: publishhtmlreport@1
+        inputs:
+          htmlType: 'Sync Report'
+          htmlPath: 'results/sast.html'
       - task: SonarCloudPrepare@3
         inputs:
           SonarCloud: '$(sonarCloudServiceConnection)'
