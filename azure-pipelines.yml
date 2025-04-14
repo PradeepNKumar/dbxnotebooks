@@ -89,3 +89,8 @@ steps:
   env:
     SONAR_TOKEN: $(SONAR_TOKEN)
   continueOnError: true
+- bash: |
+    TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')"
+    git tag -a $TAG_NAME -m "Release deployed to production on $(date)"
+    git push origin $TAG_NAME
+  displayName: 'Create and push tag'
