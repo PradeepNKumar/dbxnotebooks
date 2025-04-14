@@ -10,79 +10,6 @@ variables:
 pool:
   vmImage: 'ubuntu-latest'
 
-# steps:
-
-# - task: UsePythonVersion@0
-#   inputs:
-#     versionSpec: '$(pythonVersion)'
-  
-# - script: |
-#     python -m pip install --upgrade pip
-#     pip install notebook jupyter nbconvert
-#     pip install -r requirements.txt
-#   displayName: 'Install dependencies'
-
-# - script: |
-#     jupyter nbconvert --to python notebook1.ipynb --output notebook1.py
-#   displayName: 'Convert notebook to Python script'
-# # - task: SnykSecurityScan@1
-# #   inputs:
-# #     serviceConnectionEndpoint: 'snyk-connect'
-# #     testType: 'code'
-# #     failOnIssues: true
-# - task: NodeTool@0
-#   inputs:
-#     versionSpec: '20.x'
-# - script: |
-#     curl https://static.snyk.io/cli/latest/snyk-linux -o snyk
-#     chmod +x ./snyk
-#     mv ./snyk /usr/local/bin/
-#     npm install snyk-to-html -g
-#     mkdir -p results
-#     snyk auth $(SNYK_TOKEN)
-#     snyk test --all-projects --json-file-output=results/oss.json
-#     snyk code test --sarif-file-output=results/sast.sarif
-#     snyk-to-html -o results/oss.html < results/oss.json
-#     snyk-to-html -o results/sast.html < results/sast.sarif
-#   env:
-#     SNYK_TOKEN: $(SNYK_TOKEN)
-#   continueOnError: true
-# - task: PublishBuildArtifacts@1
-#   inputs:
-#     PathtoPublish: results/sast.html
-#     ArtifactName: 'Snyk Scan Report'
-#     publishLocation: 'Container'
-# # - publish: $(System.DefaultWorkingDirectory)/results
-# #   artifact: results
-# - task: SonarCloudPrepare@3
-#   inputs:
-#     SonarCloud: '$(sonarCloudServiceConnection)'
-#     organization: 'pradeepbasavanahalli'               # Replace with your SonarCloud org
-#     scannerMode: 'CLI'
-#     configMode: 'manual'
-#     cliProjectKey: '$(sonarProjectKey)'
-#     cliProjectName: '$(sonarProjectName)'
-#     cliSources: 'notebook1.py'               # The converted Python file
-#     extraProperties: |
-#       sonar.python.version=3.8
-#       sonar.language=py
-#       sonar.sources=.
-#       sonar.python.coverage.reportPaths=coverage.xml
-# - script: |
-#     # Create a minimal test file if none exists
-#     if [ ! -f "test_example.py" ]; then
-#       echo "import example" > test_example.py
-#       echo "def test_add():" >> test_example.py
-#       echo "    assert example.add_numbers(2, 3) == 5" >> test_example.py
-#     fi
-#   displayName: 'Create minimal test file if needed'
-
-# - script: |
-#     # Run pytest but don't fail if no tests are found
-#     python -m pytest --cov=. --cov-report=xml:coverage.xml || echo "Pytest completed (ignoring exit code)"
-#   displayName: 'Run tests with coverage'
-#   continueOnError: true  # This prevents the step from failing the pipeline
-
 # - task: SonarCloudAnalyze@3
 #   env:
 #     SONAR_TOKEN: $(SONAR_TOKEN)
@@ -94,15 +21,6 @@ pool:
 #   env:
 #     SONAR_TOKEN: $(SONAR_TOKEN)
 #   continueOnError: true
-# # - checkout: self
-# #   persistCredentials: true
-# - bash: |
-#     git config --global user.email "$(Build.RequestedForEmail)"
-#     git config --global user.name "$(Build.RequestedFor)"
-#     TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')"
-#     git tag -a $TAG_NAME -m "Release deployed to production on $(date)"
-#     git push origin $TAG_NAME
-#   displayName: 'Create and push tag'
 stages: 
 - stage: DeployToProduction
   jobs:
@@ -181,7 +99,7 @@ stages:
         continueOnError: true  # This prevents the step from failing the pipeline
 - stage: TagAfterDeployment
   dependsOn: DeployToProduction
-  condition: succeeded()
+  condition: false #succeeded()
   jobs:
   - job: TagMainBranch
     steps:
