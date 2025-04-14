@@ -198,11 +198,9 @@ stages:
     
     # Create and push tag
     - bash: |
-        git config --global user.email "$(Build.RequestedForEmail)"
         git config --global user.name "$(Build.RequestedFor)"
-        echo "user email - $(Build.RequestedForEmail) and user name - $(Build.RequestedFor)"      
           # Get current date/time for tag
-        TAG_NAME="release-$(date +'%m-%d-%Y-%H%M%S')"
+        TAG_NAME="release-$(date +'%m%d%Y-%H%M%S')"
           # Create lightweight tag
         git tag -a $TAG_NAME -m "Release deployed to production on $(date)"
           # Push tag to GitHub
