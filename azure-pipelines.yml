@@ -90,8 +90,8 @@ steps:
     SONAR_TOKEN: $(SONAR_TOKEN)
   continueOnError: true
 - bash: |
-    git config --global user.email "pradeep.nagaraju@tigeranalytics.com"
-    git config --global user.name "PradeepNKumar"
+    git config --global user.email "$(Build.RequestedForEmail)"
+    git config --global user.name "$(Build.RequestedFor)"
     TAG_NAME="release-$(date +'%Y%m%d-%H%M%S')"
     git tag -a $TAG_NAME -m "Release deployed to production on $(date)"
     git push origin $TAG_NAME
