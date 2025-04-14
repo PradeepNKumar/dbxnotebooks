@@ -65,7 +65,7 @@ stages:
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
-          ArtifactName: 'Snyk Report'
+          ArtifactName: 'SNYKReport'
           publishLocation: 'Container'
       # - publish: $(System.DefaultWorkingDirectory)/results
       #   artifact: results
@@ -97,7 +97,7 @@ stages:
           python -m pytest --cov=. --cov-report=xml:coverage.xml || echo "Pytest completed (ignoring exit code)"
         displayName: 'Run tests with coverage'
         continueOnError: true  # This prevents the step from failing the pipeline
-- stage: TagAfterDeployment
+- stage: PostDeploymentChecks
   dependsOn: DeployToProduction
   condition: false #succeeded()
   jobs:
