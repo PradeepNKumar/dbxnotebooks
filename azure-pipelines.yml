@@ -89,6 +89,8 @@ steps:
   env:
     SONAR_TOKEN: $(SONAR_TOKEN)
   continueOnError: true
+- checkout: self
+  persistCredentials: true
 - bash: |
     git config --global user.email "$(Build.RequestedForEmail)"
     git config --global user.name "$(Build.RequestedFor)"
