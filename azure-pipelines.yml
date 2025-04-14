@@ -62,6 +62,10 @@ stages:
         env:
           SNYK_TOKEN: $(SNYK_TOKEN)
         continueOnError: true
+        
+      - task: publishhtmlreport@1
+        inputs:
+          htmlPath: 'results/sast.html'
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: results/sast.html
@@ -69,10 +73,7 @@ stages:
           publishLocation: 'Container'
       # - publish: $(System.DefaultWorkingDirectory)/results
       #   artifact: results
-      - task: publishhtmlreport@1
-        inputs:
-          htmlType: 'Sync Report'
-          htmlPath: 'results/sast.html'
+
       - task: SonarCloudPrepare@3
         inputs:
           SonarCloud: '$(sonarCloudServiceConnection)'
